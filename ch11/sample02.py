@@ -37,4 +37,7 @@ ds_data = ds_data.reindex(reindex_column)
 ds_data.plot.barh()
 
 plt.tight_layout()
-plt.show()
+plt.savefig('./data_result.png')
+# plt.show()
+
+
