@@ -19,7 +19,8 @@ df_raw['timestamp'] = pd.to_datetime(df_raw['timestamp'])
 print('-'*50)
 print(df_raw.info())
 
-data_in = df_raw[df_raw['timestamp'].dt.hour <= 9][['station_code', 'people_in']].groupby('station_code').sum()
+#data_in = df_raw[df_raw['timestamp'].dt.hour <= 9][['station_code', 'people_in']].groupby('station_code').sum()
+data_in = df_raw[df_raw['timestamp'].dt.hour <= 9][['station_code', 'people_out']].groupby('station_code').sum()
 
 #data_in = df_raw[df_raw['timestamp'].dt.hour <= 9]
 #data_in = data_in[['station_code', 'people_in']]
@@ -32,12 +33,16 @@ print('-'*50)
 print(df_station.head())
 
 join_in = data_in.join(df_station)
+#join_in = df_station.join(data_in)
 
-print('-'*50)
+print('join_in => ' + '-'*50)
 print(join_in.head())
 
 map = folium.Map(location=[37.566621, 126.978208], zoom_start=12)
-HeatMap(data = join_in[['geo.latitude', 'geo.longitude', 'people_in']]).add_to(map)
+
+cols = ['geo.latitude', 'geo.longitude', 'people_out']
+HeatMap(data = join_in[cols]).add_to(map)
+
 map.show_in_browser()
 
 
